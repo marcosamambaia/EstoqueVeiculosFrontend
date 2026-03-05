@@ -1,16 +1,69 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Estoque de Veículos - Backend
+=============================
 
-Currently, two official plugins are available:
+Aplicação Spring Boot para gerenciamento de veículos.
+Permite cadastrar, listar, atualizar status e excluir veículos.
+Este projeto faz parte do sistema de controle de estoque de veículos.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+IMPORTANTE
+----------
+Este backend depende do frontend em React para funcionar corretamente.
+Os dois projetos estarão disponíveis nos meus repositórios GitHub:
+- EstoqueVeiculosBackend
+- EstoqueVeiculosFrontend
 
-## React Compiler
+O backend fornece a API REST e o frontend consome essa API para exibir e manipular os dados.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Tecnologias utilizadas
+----------------------
+- Java 17+
+- Spring Boot
+- Spring Data JPA
+- Maven
+- Banco de dados (H2/MySQL/PostgreSQL - ajuste conforme sua configuração)
 
-## Expanding the ESLint configuration
+Como rodar o projeto
+--------------------
+1. Clone o repositório:
+   git clone https://github.com/marcosamambaia/EstoqueVeiculosBackend.git
+   cd EstoqueVeiculosBackend
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+2. Compile e rode com Maven:
+   mvn spring-boot:run
+
+3. A API estará disponível em:
+   http://localhost:8081
+
+4. Para que o sistema funcione corretamente, é necessário também rodar o frontend React
+   que estará disponível no repositório EstoqueVeiculosFrontend.
+   O frontend se conecta ao backend na porta 8081.
+
+Endpoints principais
+--------------------
+Veículos:
+- GET /veiculos -> lista todos os veículos
+- POST /veiculos -> cadastra um novo veículo
+- GET /veiculos/{id} -> busca veículo por ID
+- PUT /veiculos/{id}/vendido -> marca veículo como vendido
+- DELETE /veiculos/{id} -> remove veículo
+
+Marcas:
+- GET /marcas -> lista todas as marcas
+
+Modelos:
+- GET /modelos -> lista todos os modelos
+
+Estrutura do projeto
+--------------------
+```
+src/main/java/com/unifecaf/estoqueveiculos/
+ ├── controller/   -> Controllers REST
+ ├── dto/          -> Data Transfer Objects (DTOs)
+ ├── model/        -> Entidades JPA
+ └── repository/   -> Interfaces de acesso ao banco
+```
+Autor
+-----
+Marco Samambaia
+Projeto acadêmico desenvolvido em Java com Spring Boot.
