@@ -1,69 +1,64 @@
 
-Estoque de Veículos - Backend
-=============================
+Estoque de Veículos - Frontend
+==============================
 
-Aplicação Spring Boot para gerenciamento de veículos.
-Permite cadastrar, listar, atualizar status e excluir veículos.
-Este projeto faz parte do sistema de controle de estoque de veículos.
+Aplicação desenvolvida em React utilizando Vite como bundler.
+Este projeto consome a API REST fornecida pelo backend (EstoqueVeiculosBackend).
 
 IMPORTANTE
 ----------
-Este backend depende do frontend em React para funcionar corretamente.
+Este frontend depende do backend em Spring Boot para funcionar corretamente.
 Os dois projetos estarão disponíveis nos meus repositórios GitHub:
 - EstoqueVeiculosBackend
 - EstoqueVeiculosFrontend
 
-O backend fornece a API REST e o frontend consome essa API para exibir e manipular os dados.
+O frontend se conecta ao backend na porta 8081.
 
 Tecnologias utilizadas
 ----------------------
-- Java 17+
-- Spring Boot
-- Spring Data JPA
-- Maven
-- Banco de dados (H2/MySQL/PostgreSQL - ajuste conforme sua configuração)
+- React
+- Vite
+- JavaScript (ES6+)
+- Axios (para chamadas HTTP)
+- HTML5 / CSS3
 
 Como rodar o projeto
 --------------------
 1. Clone o repositório:
-   git clone https://github.com/marcosamambaia/EstoqueVeiculosBackend.git
-   cd EstoqueVeiculosBackend
+   git clone https://github.com/marcosamambaia/EstoqueVeiculosFrontend.git
+   cd EstoqueVeiculosFrontend
 
-2. Compile e rode com Maven:
-   mvn spring-boot:run
+2. Instale as dependências:
+   npm install
 
-3. A API estará disponível em:
+3. Inicie o servidor de desenvolvimento:
+   npm run dev
+
+4. A interface estará disponível em:
+   http://localhost:5173
+
+5. Certifique-se de que o backend esteja rodando em:
    http://localhost:8081
-
-4. Para que o sistema funcione corretamente, é necessário também rodar o frontend React
-   que estará disponível no repositório EstoqueVeiculosFrontend.
-   O frontend se conecta ao backend na porta 8081.
-
-Endpoints principais
---------------------
-Veículos:
-- GET /veiculos -> lista todos os veículos
-- POST /veiculos -> cadastra um novo veículo
-- GET /veiculos/{id} -> busca veículo por ID
-- PUT /veiculos/{id}/vendido -> marca veículo como vendido
-- DELETE /veiculos/{id} -> remove veículo
-
-Marcas:
-- GET /marcas -> lista todas as marcas
-
-Modelos:
-- GET /modelos -> lista todos os modelos
 
 Estrutura do projeto
 --------------------
 ```
-src/main/java/com/unifecaf/estoqueveiculos/
- ├── controller/   -> Controllers REST
- ├── dto/          -> Data Transfer Objects (DTOs)
- ├── model/        -> Entidades JPA
- └── repository/   -> Interfaces de acesso ao banco
+src/
+ ├── components/   -> Componentes reutilizáveis
+ ├── pages/        -> Páginas principais da aplicação
+ ├── services/     -> Configuração de chamadas à API (Axios)
+ ├── App.jsx       -> Componente raiz
+ └── main.jsx      -> Ponto de entrada da aplicação
 ```
+Integração com Backend
+----------------------
+- O frontend consome os endpoints do backend:
+  - GET /veiculos -> lista veículos
+  - POST /veiculos -> cadastra veículo
+  - PUT /veiculos/{id}/vendido -> marca como vendido
+  - DELETE /veiculos/{id} -> remove veículo
+
 Autor
 -----
 Marco Samambaia
-Projeto acadêmico desenvolvido em Java com Spring Boot.
+Projeto acadêmico desenvolvido em React (Vite) integrado com Spring Boot.
