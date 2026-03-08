@@ -1,38 +1,60 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
+import Home from "./components/Home";
+import Veiculos from "./components/Veiculos";
 import Marcas from "./components/Marcas";
 import Modelos from "./components/Modelos";
-import Veiculos from "./components/Veiculos";
 
 function App() {
-  const [perfil, setPerfil] = useState(null); // guarda o perfil do usuário logado
+  const [usuario, setUsuario] = useState(null);
 
   return (
     <Router>
-      {!perfil ? (
-        // Se não houver perfil, mostra a tela de login
-        <Login onLogin={setPerfil} />
-      ) : (
-        <div>
-          {/* Menu de navegação */}
-          <nav>
-            {perfil === "ADMIN" && <Link to="/marcas">Marcas</Link>} | 
-            {perfil === "ADMIN" && <Link to="/modelos">Modelos</Link>} | 
-            <Link to="/veiculos">Veículos</Link> | 
-            
-            {/* Botão de logout */}
-            <button onClick={() => setPerfil(null)}>Logout</button>
-          </nav>
+      <Routes>
+        {/* Rota de login */}
+        <Route path="/" element={<Login onLogin={setUsuario} />} />
 
-          {/* Rotas disponíveis conforme perfil */}
-          <Routes>
-            {perfil === "ADMIN" && <Route path="/marcas" element={<Marcas />} />}
-            {perfil === "ADMIN" && <Route path="/modelos" element={<Modelos />} />}
-            <Route path="/veiculos" element={<Veiculos />} />
-          </Routes>
-        </div>
-      )}
+        {/* Rota home protegida */}
+        <Route
+          path="/home"
+          element={
+            usuario ? <Home usuario={usuario} /> : <Login onLogin={setUsuario} />
+          }
+        />
+
+        {/* Rotas de administração (somente ADMIN) */}
+        <Route
+          path="/veiculos"
+          element={
+            usuario?.perfil === "ADMIN" ? (
+              <Veiculos />
+            ) : (
+              <Home usuario={usuario} />
+            )
+          }
+        />
+        <Route
+          path="/marcas"
+          element={
+            usuario?.perfil === "ADMIN" ? (
+              <Marcas />
+            ) : (
+              <Home usuario={usuario} />
+            )
+          }
+        />
+        <Route
+          path="/modelos"
+          element={
+            usuario?.perfil === "ADMIN" ? (
+              <Modelos />
+            ) : (
+              <Home usuario={usuario} />
+            )
+          }
+        />
+      </Routes>
     </Router>
   );
 }

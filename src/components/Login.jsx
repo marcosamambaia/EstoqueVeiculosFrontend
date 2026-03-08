@@ -1,33 +1,37 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; // para redirecionar
 
 function Login({ onLogin }) {
-  // Estados para armazenar email e senha digitados
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [mensagem, setMensagem] = useState("");
+  const navigate = useNavigate();
 
-  // Função chamada ao clicar no botão "Login"
   const handleLogin = async () => {
     try {
-      // Faz requisição POST para o backend
       const response = await axios.post("http://localhost:8081/usuarios/login", {
         email,
         senha
       });
 
-      // O backend retorna mensagem e perfil
-      const perfil = response.data.perfil;
+      // Backend retorna mensagem, perfil, email e nome
+      const { mensagem, perfil, nome, email: userEmail } = response.data;
 
       // Exibe mensagem de sucesso
-      setMensagem(`Login realizado com sucesso! Perfil: ${perfil}`);
+      setMensagem(`${mensagem} | Perfil: ${perfil} | Usuário: ${nome}`);
 
-      // Chama função passada pelo App para salvar perfil globalmente
+      // Salva usuário no localStorage (opcional)
+      localStorage.setItem("usuario", JSON.stringify({ perfil, nome, email: userEmail }));
+
+      // Chama função passada pelo App para salvar globalmente
       if (onLogin) {
-        onLogin(perfil);
+        onLogin({ perfil, nome, email: userEmail });
       }
+
+      // Redireciona para a tela principal
+      navigate("/home");
     } catch (error) {
-      // Se der erro (usuário não encontrado ou senha incorreta)
       setMensagem("Erro no login. Verifique email e senha.");
     }
   };
@@ -35,7 +39,6 @@ function Login({ onLogin }) {
   return (
     <div>
       <h2>Login</h2>
-      {/* Campo de email */}
       <input
         type="text"
         placeholder="Email"
@@ -43,7 +46,6 @@ function Login({ onLogin }) {
         onChange={(e) => setEmail(e.target.value)}
       />
 
-      {/* Campo de senha */}
       <input
         type="password"
         placeholder="Senha"
@@ -51,10 +53,8 @@ function Login({ onLogin }) {
         onChange={(e) => setSenha(e.target.value)}
       />
 
-      {/* Botão de login */}
       <button onClick={handleLogin}>Entrar</button>
 
-      {/* Mensagem de feedback */}
       {mensagem && <p>{mensagem}</p>}
     </div>
   );
