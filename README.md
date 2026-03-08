@@ -40,8 +40,10 @@ O frontend se conecta ao backend na porta **8081**.
    cd EstoqueVeiculosFrontend
 ```
 5. Instale as dependências:
-   npm install
-6. Inicie o servidor de desenvolvimento:
+```
+    npm install
+```
+7. Inicie o servidor de desenvolvimento:
 ```
    npm run dev
 ```
